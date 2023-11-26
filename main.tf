@@ -19,3 +19,12 @@ resource "aws_subnet" "bng_public_subnet" {
     env  = "dev"
   }
 }
+
+resource "aws_internet_gateway" "bng_igw" {
+  vpc_id = aws_vpc.bng_vpc.id
+
+  tags = {
+    Name = "bng_igw"
+    env  = "dev"
+  }
+}
