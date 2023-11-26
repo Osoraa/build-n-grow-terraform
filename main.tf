@@ -53,3 +53,8 @@ resource "aws_route" "bng_route" {
   depends_on             = [aws_route_table.bng_rt]
 }
 
+# Associate the route table with the subnet
+resource "aws_route_table_association" "a" {
+  subnet_id      = aws_subnet.bng_public_subnet.id
+  route_table_id = aws_route_table.bng_rt.id
+}
