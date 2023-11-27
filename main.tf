@@ -135,7 +135,7 @@ resource "aws_instance" "bng_ubuntu" {
   subnet_id              = aws_subnet.bng_public_subnet.id
 
   # User data to run upon instance creation
-  user_data = file("./user_data.tpl")
+  user_data = file("./userdata.tpl")
 
   tags = {
     Name = "bng_ubuntu"
