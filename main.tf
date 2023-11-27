@@ -81,7 +81,8 @@ resource "aws_vpc_security_group_ingress_rule" "bng_ssh" {
   to_port     = 22
 
   tags = {
-    Name = "bng_ssh"
+    Name        = "bng_ssh"
+    Description = "Allow all ingress SSH traffic"
   }
 }
 
@@ -95,7 +96,8 @@ resource "aws_vpc_security_group_ingress_rule" "bng_http" {
   to_port     = 80
 
   tags = {
-    Name = "bng_http"
+    Name        = "bng_http"
+    Description = "Allow all ingress HTTP traffic"
   }
 }
 
@@ -109,6 +111,30 @@ resource "aws_vpc_security_group_egress_rule" "bng_allow_all" {
   #   to_port     = 80
 
   tags = {
-    Name = "bng_allow_all"
+    Name        = "bng_allow_all"
+    Description = "Allow all Egress traffic"
+  }
+}
+
+# Deploy a Key Pair
+resource "aws_key_pair" "bng_key" {
+  key_name   = "bng_key"
+  public_key = file("~/.ssh/bng_key.pub")
+
+  tags = {
+    Name = "bng_key"
+  }
+}
+
+# Deploy an instance
+resource "aws_instance" "bng_ubuntu" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = "t2.micro"
+  key_name               = aws_key_pair.bng_key.id # Equals key_name
+  vpc_security_group_ids = [aws_security_group.bng_sg.id]
+  subnet_id              = aws_subnet.bng_public_subnet.id
+
+  tags = {
+    Name = "bng_ubuntu"
   }
 }
