@@ -58,3 +58,40 @@ resource "aws_route_table_association" "a" {
   subnet_id      = aws_subnet.bng_public_subnet.id
   route_table_id = aws_route_table.bng_rt.id
 }
+
+resource "aws_security_group" "bng_sg" {
+  name = "BNG_SG"
+  #   description = "build-n-grow-terraform"
+  vpc_id = aws_vpc.bng_vpc.id
+
+  tags = {
+    Name = "bng_sg"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "bng_ssh" {
+  security_group_id = aws_security_group.bng_sg.id
+
+  cidr_ipv4   = "0.0.0.0/0"
+  from_port   = 22
+  ip_protocol = "tcp"
+  to_port     = 22
+}
+
+resource "aws_vpc_security_group_ingress_rule" "bng_tcp" {
+  security_group_id = aws_security_group.bng_sg.id
+
+  cidr_ipv4   = "0.0.0.0/0"
+  from_port   = 80
+  ip_protocol = "tcp"
+  to_port     = 80
+}
+
+resource "aws_vpc_security_group_egress_rule" "bng_allow_all" {
+  security_group_id = aws_security_group.bng_sg.id
+
+  cidr_ipv4        = "0.0.0.0/0"
+  #   from_port   = 80
+  ip_protocol = "-1"
+  #   to_port     = 80
+}
