@@ -22,8 +22,6 @@ After installing terraform
 
 ## Key Takeaways from the Project
 
----
-
 This mini-project afforded me the understanding of Terraform and how it generally interacts with the Cloud.
 
 I also understood that Terraform mostly excels in infrastructure deployment to various Cloud platforms and not really maintaining or managing said Infrastructure.  
