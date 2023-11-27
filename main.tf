@@ -59,9 +59,10 @@ resource "aws_route_table_association" "a" {
   route_table_id = aws_route_table.bng_rt.id
 }
 
+# Deploy Security Group
 resource "aws_security_group" "bng_sg" {
   name = "BNG_SG"
-  #   description = "build-n-grow-terraform"
+  #   description = "Managed by terraform" default description
   vpc_id = aws_vpc.bng_vpc.id
 
   tags = {
@@ -69,6 +70,8 @@ resource "aws_security_group" "bng_sg" {
   }
 }
 
+# Allow SSH traffic
+# Left open, ssh key-pair would be used
 resource "aws_vpc_security_group_ingress_rule" "bng_ssh" {
   security_group_id = aws_security_group.bng_sg.id
 
@@ -76,22 +79,36 @@ resource "aws_vpc_security_group_ingress_rule" "bng_ssh" {
   from_port   = 22
   ip_protocol = "tcp"
   to_port     = 22
+
+  tags = {
+    Name = "bng_ssh"
+  }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "bng_tcp" {
+# Allow HTTP traffic
+resource "aws_vpc_security_group_ingress_rule" "bng_http" {
   security_group_id = aws_security_group.bng_sg.id
 
   cidr_ipv4   = "0.0.0.0/0"
   from_port   = 80
   ip_protocol = "tcp"
   to_port     = 80
+
+  tags = {
+    Name = "bng_http"
+  }
 }
 
+# Allow all egress 
 resource "aws_vpc_security_group_egress_rule" "bng_allow_all" {
   security_group_id = aws_security_group.bng_sg.id
 
-  cidr_ipv4        = "0.0.0.0/0"
+  cidr_ipv4 = "0.0.0.0/0"
   #   from_port   = 80
   ip_protocol = "-1"
   #   to_port     = 80
+
+  tags = {
+    Name = "bng_allow_all"
+  }
 }
