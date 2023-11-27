@@ -6,7 +6,6 @@ Deploy a simple AWS infrastructure using Terraform.
 
 ## Deploying a Simple Infrastructure on AWS with Terraform
 
-
 | ![SImple AWS Infra](./AWS-Infra.png) |
 |:-:|
 | *Diagram of a Simple AWS Infrastructure* |
@@ -21,7 +20,7 @@ Deploy a simple AWS infrastructure using Terraform.
 
 After installing terraform
 
-### Key Takeaways from the Project
+## Key Takeaways from the Project
 
 ---
 
