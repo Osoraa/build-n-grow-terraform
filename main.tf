@@ -134,6 +134,9 @@ resource "aws_instance" "bng_ubuntu" {
   vpc_security_group_ids = [aws_security_group.bng_sg.id]
   subnet_id              = aws_subnet.bng_public_subnet.id
 
+  # User data to run upon instance creation
+  user_data = file("./user_data.tpl")
+
   tags = {
     Name = "bng_ubuntu"
   }
